@@ -5,7 +5,9 @@ extension Notification {
         guard let app = self.userInfo?[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication else {
             return false
         }
-        return app.bundleIdentifier == SIMULATOR_BUNDLE_ID
+        let bundleId = app.bundleIdentifier ?? ""
+        return bundleId == SIMULATOR_BUNDLE_ID
+            || (bundleId.contains("Xcode") && bundleId.contains("Previews"))
     }
 
     func getSimulatorPID() -> pid_t? {
